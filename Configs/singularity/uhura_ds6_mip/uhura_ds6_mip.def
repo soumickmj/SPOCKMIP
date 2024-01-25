@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: cradhakr/uhura_ds6_mip
+
+%runscript
+
+    exec /opt/conda/bin/conda run -n uhura_mip --no-capture-output python /uhura_ds6_mip/main_executor.py -model_name "uhura_ds6_mip" -dataset_path /data -output_path /output -load_path /uhura_ds6_mip/ "$@"
+
+
+%post
+
+    conda init
+    . /etc/profile.d/conda.sh
+    conda activate uhura_mip

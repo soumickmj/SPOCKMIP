@@ -3,6 +3,7 @@
 Purpose: Entry Point for the Vessel Segmentation Solution
 """
 
+import os
 import argparse
 import random
 import numpy as np
@@ -10,6 +11,7 @@ import torch.utils.data
 from torch.utils.tensorboard import SummaryWriter
 from Utils.logger import Logger
 from Utils.model_manager import get_model
+from Utils.vessel_utils import load_model_huggingface
 from pipeline import Pipeline
 from cross_validation_pipeline import CrossValidationPipeline
 
@@ -95,13 +97,19 @@ if __name__ == '__main__':
                         default="",
                         help="Path to the label image to find the diff between label an output, "
                              "e.g.,:/home/test/ww25_label.nii ")
+    
+    parser.add_argument('-load_huggingface',
+                        default="",
+                        help="Load model from huggingface model hub ex: 'soumickmj/DS6_UNetMSS3D_wDeform' [model param will be ignored]")
+
     parser.add_argument('-load_path',
                         default="./",
-                        help="Path to checkpoint of existing model to load, ex:/home/model/checkpoint")
+                        help="Path to checkpoint of existing model to load, ex:/home/model/checkpoint/ [If this is supplied, load_huggingface will be ignored]")
     parser.add_argument('-load_best',
                         default=True,
                         help="Specifiy whether to load the best checkpoint or the last. "
-                             "Also to be used if Train and Test both are true.")
+                             "Also to be used if Train and Test both are true. [Only if load_path is supplied]")
+    
     parser.add_argument('-pre_train',
                         default=True,
                         help="Specifiy whether to load the pre trained weights for training/tuning.")
@@ -230,6 +238,8 @@ if __name__ == '__main__':
     DATASET_FOLDER = args.dataset_path
     OUTPUT_PATH = args.output_path
 
+    os.makedirs(OUTPUT_PATH, exist_ok=True)
+
     LOAD_PATH = args.load_path
     CHECKPOINT_PATH = OUTPUT_PATH + "/" + MODEL_NAME + '/checkpoint/'
 
@@ -257,7 +267,11 @@ if __name__ == '__main__':
         writer_validating = SummaryWriter(TENSORBOARD_PATH_VALIDATION)
 
     # Model
-    model = torch.nn.DataParallel(get_model(args.model))
+    if args.load_huggingface:
+        model = load_model_huggingface(args.load_huggingface)
+    else:
+        model = get_model(args.model)
+    model = torch.nn.DataParallel(model)
     model.cuda()
 
     wandb = None

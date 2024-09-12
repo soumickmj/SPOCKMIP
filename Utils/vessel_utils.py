@@ -85,7 +85,8 @@ def load_model(model, optimizer, checkpoint_path, batch_index='best', filename='
     print('Loading model...')
     checkpoint = torch.load(os.path.join(checkpoint_path, filename + str(batch_index) + str(fold_index) + '.pth'))
     model.load_state_dict(checkpoint['state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    if 'optimizer' in checkpoint:
+        optimizer.load_state_dict(checkpoint['optimizer'])
     model.eval()
     return model, optimizer
 
@@ -99,12 +100,22 @@ def load_model_with_amp(model, optimizer, checkpoint_path, batch_index='best', f
     model.cuda()
     checkpoint = torch.load(os.path.join(checkpoint_path, filename + str(batch_index) + str(fold_index) + '.pth'))
     model.load_state_dict(checkpoint['state_dict'])
-    optimizer.load_state_dict(checkpoint['optimizer'])
+    if 'optimizer' in checkpoint:
+        optimizer.load_state_dict(checkpoint['optimizer'])
     scaler = GradScaler()
-    scaler.load_state_dict(checkpoint['amp'])
+    if 'amp' in checkpoint:
+        scaler.load_state_dict(checkpoint['amp'])
     model.eval()
     return model, optimizer, scaler
 
+def load_model_huggingface(pretrained_model_name_or_path):
+    """
+    Method to load model from huggingface
+    """
+    from transformers import AutoModel #importing transformers here as we only use it if loading models from huggingface. This way the code will not break if transformers is not installed
+    model = AutoModel.from_pretrained(pretrained_model_name_or_path, trust_remote_code=True)
+    model.eval()
+    return model
 
 def convert_and_save_tif(image3d, output_path, filename='output.tif', is_colored=True):
     """

@@ -321,7 +321,10 @@ if __name__ == '__main__':
 
     # loading existing checkpoint if supplied
     if str(args.pre_train).lower() == "true":
-        pipeline.load(checkpoint_path=LOAD_PATH, load_best=args.load_best, fold_index=args.fold_index)
+        if bool(LOAD_PATH):
+            pipeline.load(checkpoint_path=LOAD_PATH, load_best=args.load_best, fold_index=args.fold_index)
+        else:
+            print("-pre_train is set to True, but -load_path has not been supplied. pre_train loading will be skipped!")
 
     if str(args.train).lower() == "true":
         pipeline.train()

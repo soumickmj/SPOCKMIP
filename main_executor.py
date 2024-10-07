@@ -103,7 +103,7 @@ if __name__ == '__main__':
                         help="Load model from huggingface model hub ex: 'soumickmj/DS6_UNetMSS3D_wDeform' [model param will be ignored]")
 
     parser.add_argument('-load_path',
-                        default="./",
+                        default="",
                         help="Path to checkpoint of existing model to load, ex:/home/model/checkpoint/ [If this is supplied, load_huggingface will be ignored]")
     parser.add_argument('-load_best',
                         default=True,

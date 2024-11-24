@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B0DD7GCKC0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-B0DD7GCKC0');
+  </script>
+
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description"
+    content="This study focuses on improving the segmentation quality by considering the spatial correlation of the features using the Maximum Intensity Projection~(MIP) as an additional loss criterion. Two methods are proposed with the incorporation of MIPs of label segmentation on the single~(z-axis) and multiple perceivable axes of the 3D volume. The proposed MIP-based methods produce segmentations with improved vessel continuity, which is evident in visual examinations of ROIs.">
+  <meta property="og:title"
+    content="SPOCKMIP: Segmentation of Vessels in MRAs with Enhanced Continuity using Maximum Intensity Projection as Loss" />
+  <meta property="og:description"
+    content="This study focuses on improving the segmentation quality by considering the spatial correlation of the features using the Maximum Intensity Projection~(MIP) as an additional loss criterion. Two methods are proposed with the incorporation of MIPs of label segmentation on the single~(z-axis) and multiple perceivable axes of the 3D volume. The proposed MIP-based methods produce segmentations with improved vessel continuity, which is evident in visual examinations of ROIs." />
+  <meta property="og:url" content="https://soumickmj.github.io/SPOCKMIP/" />
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <!-- <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" /> -->
+
+
+  <meta name="twitter:title"
+    content="SPOCKMIP: Segmentation of Vessels in MRAs with Enhanced Continuity using Maximum Intensity Projection as Loss">
+  <meta name="twitter:description"
+    content="This study focuses on improving the segmentation quality by considering the spatial correlation of the features using the Maximum Intensity Projection~(MIP) as an additional loss criterion. Two methods are proposed with the incorporation of MIPs of label segmentation on the single~(z-axis) and multiple perceivable axes of the 3D volume. The proposed MIP-based methods produce segmentations with improved vessel continuity, which is evident in visual examinations of ROIs.">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords"
+    content="Diffusion, DiffAE, autoencoder, GWAS, EWAS, genome, exome, genetics, cardiac MRI, ukbb, UK Biobank, 20208, CINE, Long axis, cardiac, MRI, dynamic MRI, 3D autoencoder, 3D DiffAE, human technopole, MRI phenotyping, unsupervised, novel genetic insights">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>SPOCKMIP: Segmentation of Vessels in MRAs with Enhanced Continuity using Maximum Intensity Projection as Loss</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">SPOCKMIP: Segmentation of Vessels in MRAs with Enhanced Continuity using Maximum Intensity Projection as Loss</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="javascript:void(0)" target="_blank">Chethan Radhakrishna</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="javascript:void(0)" target="_blank">Karthikesh Varma Chintalapati</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="javascript:void(0)" target="_blank">Sri Chandana Hudukula Ram Kumar</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="javascript:void(0)" target="_blank">Raviteja Sutrave</a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.bmmr.ovgu.de/mm/en/Team/Hendrik+Mattern.html" target="_blank">Hendrik Mattern</a><sup>2,4,5</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.bmmr.ovgu.de/en/Team/Oliver+Speck.html" target="_blank">Oliver Speck</a><sup>2,4,5</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.findke.ovgu.de/en/nuernberger.html" target="_blank">Andreas Nürnberger</a><sup>1,3,5</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://www.soumick.com/" target="_blank">Soumick Chatterjee</a><sup>1,3,6</sup>
+              </span>
+            </div> <!-- Closing the open div here -->
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Faculty of Computer Science, Otto von Guericke University Magdeburg, Germany
+                <br><sup>2</sup>Biomedical Magnetic Resonance, Otto von Guericke University Magdeburg, Germany
+                <br><sup>3</sup>Data and Knowledge Engineering Group, Otto von Guericke University, Magdeburg, Germany
+                <br><sup>4</sup>German Centre for Neurodegenerative Disease, Magdeburg, Germany
+                <br><sup>5</sup>Centre for Behavioural Brain Sciences, Magdeburg, Germany
+                <br><sup>6</sup>Genomics Research Centre, Human Technopole, Milan, Italy
+                <br>Email: contact@soumick.com
+                <br><big><a href="https://doi.org/10.48550/arXiv.2407.08655" target="_blank">arXiv:2407.08655</a></big>
+                <br>Part of the <a href="https://el-aurian.github.io/" target="_blank">EL-AURIAN</a> project
+              </span>
+              <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+            </div>
+
+            <div class="column has-text-centered">
+              <!-- <div class="publication-links">
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                    <span class="link-block">
+                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span> -->
+
+              <!-- ArXiv abstract Link -->
+              <span class="link-block">
+                <a href="https://doi.org/10.48550/arXiv.2407.08655" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <!-- <span>bioRxiv</span> -->
+                  <span>Preprint</span>
+                </a>
+              </span>
+
+              <!-- Github link -->
+              <span class="link-block">
+                <a href="https://github.com/soumickmj/SPOCKMIP" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+              <!-- Model weights -->
+              <span class="link-block">
+                <a href="https://huggingface.co/collections/soumickmj/spockmip-66d82921b61dd11022114c66"
+                  target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon" style="vertical-align: middle; font-size: 20px;">🤗</span>
+                  <span style="vertical-align: middle;">Model Weights</span>
+                </a>
+              </span>
+
+              <!-- Github link -->
+              <!-- <span class="link-block">
+                <a href="https://huggingface.co/spaces/GlastonburyGroup/Live_UKBBLatent_Cardiac_20208_DiffAE3D_L128"
+                  target="_blank" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-laptop"></i>
+                  </span>
+                  <span>Online Application</span>
+                </a>
+              </span> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <!-- Teaser video-->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="item">
+          <!-- Your image here -->
+          <img src="static/images/SPOCKMIP.png" alt="MY ALT TEXT" />
+          <h2 class="subtitle has-text-centered">
+            Method overview
+
+          </h2>
+        </div>
+        <!-- <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <source src="static/videos/banner_video.mp4"
+        type="video/mp4">
+      </video> -->
+        <!-- <h2 class="subtitle has-text-centered">
+        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
+      </h2> -->
+      </div>
+    </div>
+  </section>
+  <!-- End teaser video -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>Identification of vessel structures of different sizes in biomedical images is crucial in the diagnosis of many neurodegenerative diseases. However, the sparsity of good-quality annotations of such images makes the task of vessel segmentation challenging. Deep learning offers an efficient way to segment vessels of different sizes by learning their high-level feature representations and the spatial continuity of such features across dimensions. Semi-supervised patch-based approaches have been effective in identifying small vessels of one to two voxels in diameter. This study focuses on improving the segmentation quality by considering the spatial correlation of the features using the Maximum Intensity Projection (MIP) as an additional loss criterion. Two methods are proposed with the incorporation of MIPs of label segmentation on the single (z-axis) and multiple perceivable axes of the 3D volume. The proposed MIP-based methods produce segmentations with improved vessel continuity, which is evident in visual examinations of ROIs. In this study, UNet and UNet MSS models with ReLU activation replaced by LeakyReLU are trained on the Study Forrest dataset. Patch-based training is improved by introducing an additional loss term, MIP loss, to penalise the predicted discontinuity of vessels. A training set of 14 volumes is selected from the StudyForrest dataset comprising of 18 7-Tesla 3D Time-of-Flight (ToF) Magnetic Resonance Angiography (MRA) images. The generalisation performance of the method is evaluated using the other unseen volumes in the dataset. It is observed that the proposed method with multi-axes MIP loss produces better quality segmentations with a median Dice of 80.245 ± 0.129. Also, the method with single-axis MIP loss produces segmentations with a median Dice of 79.749 ± 0.109. Furthermore, a visual comparison of the ROIs in the predicted segmentation reveals a significant improvement in the continuity of the vessels when MIP loss is incorporated into training.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="item">
+          <!-- Your image here -->
+          <br />
+          <img src="static/images/VSeg_ROIComparisons.jpg" alt="MY ALT TEXT" style="width: 100%; display: block; margin: 0 auto" />
+
+          <h2 class="subtitle has-text-centered">
+            Visual comparison of ROIs of MIPs of segmentations resulting from training all the models with MIP loss along the z-axis and MIP loss along multiple axes. Annotations on the MIPs show the missing continuity of the vessels and the improvements after using the z-axis and multi-axes MIP loss. Each image is an overlay of network predictions on the ground truth, where blue and red represent false positives and false negatives, respectively.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="item">
+          <!-- Your image here -->
+          <img src="static/images/fp.jpg" alt="MY ALT TEXT" style="width: 45%; display: block; margin: 0 auto;" />
+          <h2 class="subtitle has-text-centered">
+            Comparison of False Positives between segmentations generated by UNet-MSS\_MIP and UNet MSS mMIP. Each image is an overlay of network predictions on the Ground Truth, where blue annotations represent false positives and red annotations represent false negatives.
+          </h2>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero teaser">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <div class="item">
+            <!-- Your image here -->
+            <img src="static/images/scores.png" alt="MY ALT TEXT" style="width: 45%; display: block; margin: 0 auto;" />
+            <h2 class="subtitle has-text-centered">
+              Metrics comparisons of 15 segmentation results of test volumes, excluding the volume with wrap-around artefacts, over 5-fold cross-validation.
+            </h2>
+          </div>
+        </div>
+      </div>
+
+    
+
+
+
+
+    <!-- Youtube video -->
+    <!-- <section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+    <!-- End youtube video -->
+
+
+
+
+
+
+
+
+
+    <!-- Paper poster -->
+    <!-- <section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title">Poster</h2>
+
+      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
+          </iframe>
+        
+      </div>
+    </div>
+  </section> -->
+    <!--End paper poster -->
+
+
+    <!--BibTex citation -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>
+          @article{radhakrishna2024spockmip,
+            title={SPOCKMIP: Segmentation of Vessels in MRAs with Enhanced Continuity using Maximum Intensity Projection as Loss},
+            author={Radhakrishna, Chethan and Chintalapati, Karthikesh Varma and Kumar, Sri Chandana Hudukula Ram and Sutrave, Raviteja and Mattern, Hendrik and Speck, Oliver and N{\"u}rnberger, Andreas and Chatterjee, Soumick},
+            journal={arXiv preprint arXiv:2407.08655},
+            year={2024}
+          }                  
+      </code></pre>
+      </div>
+    </section>
+    <!--End BibTex citation -->
+
+
+    <footer class="footer">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content">
+              <center>
+                <a href="https://humantechnopole.it/en/" target="_blank">
+                  <img src="static/images/Signet_FIN_3.png" alt="Logo"
+                    style="max-width: 200px; margin-bottom: 20px;">
+                </a>
+                <p>
+                  This page was built using the <a
+                    href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic
+                    Project Page Template</a>
+                </p>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Statcounter tracking code -->
+
+    <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+</body>
+
+</html>
